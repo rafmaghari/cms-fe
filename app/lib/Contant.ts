@@ -1,0 +1,1 @@
+export const UNPROCESSABLE_CONTENT = 422

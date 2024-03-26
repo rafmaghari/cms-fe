@@ -5,7 +5,7 @@ import {useState} from "react";
 import useSidebarToggle from "@/app/hooks/useSideBarToggle";
 
 const Nav = () => {
-    const { isSidebarOpen, toggleSidebar } = useSidebarToggle();
+    const {isSidebarOpen, toggleSidebar} = useSidebarToggle();
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     const toggleDarkMode = () => {
@@ -31,7 +31,7 @@ const Nav = () => {
                         <button
                             onClick={toggleDarkMode}
                             className="text-2xl">
-                            {!isDarkMode  ? <MdDarkMode /> : <CiLight className="text-white font-bold" />}
+                            {!isDarkMode ? <MdDarkMode/> : <CiLight className="text-white font-bold"/>}
                         </button>
                     </div>
                 </div>

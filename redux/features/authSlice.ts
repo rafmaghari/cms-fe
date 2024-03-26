@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {state} from "sucrase/dist/types/parser/traverser/base";
 
 type AuthState = {
     isAuthenticated: boolean,

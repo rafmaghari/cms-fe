@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import React from "react";
-import Nav from "@/app/components/common/Nav";
 import Provider from '@/redux/provider';
 import {Toaster} from "@/components/ui/toaster";
+import Sidebar from "@/app/components/common/Sidebar";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,10 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white dark:bg-gray-800`}>
+      <body className={`${inter.className} bg-white text-black flex min-h-screen w-full dark:bg-gray-800`}>
         <Provider>
-            <Nav />
-            {children}
+            <Sidebar />
+            <div className="p-8 w-full">
+                {children}
+            </div>
         </Provider>
         <Toaster />
       </body>

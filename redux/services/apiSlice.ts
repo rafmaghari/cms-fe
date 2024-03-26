@@ -1,52 +1,52 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import type {
-    BaseQueryFn,
-    FetchArgs,
-    FetchBaseQueryError,
-} from '@reduxjs/toolkit/query'
-import { setAuth, logout } from '@/redux/features/authSlice'
-import { Mutex } from 'async-mutex'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import {logout, setAuth} from '@/redux/features/authSlice';
 
-const mutex = new Mutex()
-const baseQuery = fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/api/v1`,
-    credentials: 'include'
-})
-const baseQueryWithReauth: BaseQueryFn<
-    string | FetchArgs,
-    unknown,
-    FetchBaseQueryError
-> = async (args, api, extraOptions) => {
-    await mutex.waitForUnlock()
-    let result = await baseQuery(args, api, extraOptions)
-    if (result.error && result.error.status === 401) {
-        if (!mutex.isLocked()) {
-            const release = await mutex.acquire()
-            try {
-                const refreshResult = await baseQuery(
-                    '/refreshToken',
-                    api,
-                    extraOptions
-                )
-                if (refreshResult.data) {
-                    api.dispatch(setAuth())
-                    result = await baseQuery(args, api, extraOptions)
-                } else {
-                    api.dispatch(logout())
-                }
-            } finally {
-                release()
-            }
-        } else {
-            await mutex.waitForUnlock()
-            result = await baseQuery(args, api, extraOptions)
+const TYPE_MUTATION = 'mutation'
+
+const fetchBaseQueryWithCSRF = fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_HOST}`,
+    credentials: 'include', // Ensure this matches the credentials policy for CORS
+    prepareHeaders: async (headers, { getState, endpoint, type }) => {
+
+        if (type === TYPE_MUTATION) {
+            await fetch(`${process.env.NEXT_PUBLIC_HOST}/sanctum/csrf-cookie`, {
+                credentials: 'include',
+            });
         }
-    }
-    return result
-}
 
+        const getXSRFToken: any = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('XSRF-TOKEN='))
+            ?.split('=')[1];
+
+        if (getXSRFToken) {
+            headers.set('X-XSRF-TOKEN', decodeURIComponent(getXSRFToken));
+        }
+
+        headers.set('Content-Type', 'application/json');
+        headers.set('Accept', 'application/json');
+
+        return headers;
+    },
+});
+
+
+// Enhanced base query without re-authentication logic, redirect on 401
+const baseQueryWithRedirect: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
+    const result = await fetchBaseQueryWithCSRF(args, api, extraOptions);
+    if (result.error && result.error.status === 401) {
+        api.dispatch(logout());
+        window.location.href = '/auth/signin';
+    } else {
+        api.dispatch(setAuth())
+    }
+    return result;
+};
+
+// Create an API slice with the simplified error handling logic
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: baseQueryWithReauth,
+    baseQuery: baseQueryWithRedirect,
     endpoints: builder => ({})
-})
+});
