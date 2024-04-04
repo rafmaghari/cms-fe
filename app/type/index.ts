@@ -11,6 +11,7 @@ export type User = {
     facebook_url: string
     joined_at?: Date
     created_by?: number
+    others: string
 }
 
 export type ApiResponse<T> = {

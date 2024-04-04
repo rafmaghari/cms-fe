@@ -19,19 +19,21 @@ export const userFormSchema = z.object({
     joined_at: z.string(),
     phone_number: z.string(),
     email: z.string().email(),
-    facebook_url: z.string().url(),
+    facebook_url: z.string(),
+    others: z.string()
 });
 
-const userDefaultValue = {
+export const userDefaultValue = {
     first_name: '',
     last_name: '',
     joined_at: '',
     phone_number: '',
     email: '',
     facebook_url: '',
+    others: '',
 }
 
-export const useGroupManagement = (param = 1) => {
+export const useUserManagement = (param = 1) => {
     const form = useForm({
         resolver: zodResolver(userFormSchema),
         defaultValues: userDefaultValue
