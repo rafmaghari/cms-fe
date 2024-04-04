@@ -27,7 +27,9 @@ const UserTable = ({userData, isRetrievingLoading, setSelectedItem, form, handle
                     <TableHead>Phone Number</TableHead>
                     <TableHead>Facebook Url</TableHead>
                     <TableHead>Joined At</TableHead>
+                    <TableHead>Group</TableHead>
                     <TableHead>Notes</TableHead>
+                    <TableHead></TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -39,10 +41,12 @@ const UserTable = ({userData, isRetrievingLoading, setSelectedItem, form, handle
                         <TableCell className="font-medium">{user.facebook_url}</TableCell>
                         <TableCell
                             className="font-medium">  {user.joined_at ? new Date(user.joined_at).toDateString() : '-'}</TableCell>
+                        <TableCell>{user.group_name}</TableCell>
                         <TableCell>{user.others}</TableCell>
                         <TableCell className="font-medium">
                             <DropdownMenuCheckboxes onSelect={(action: string) => {
                                 setSelectedItem(user);
+                                console.log(user)
                                 form.reset({
                                     id: user.id,
                                     first_name: user.first_name,
@@ -52,6 +56,7 @@ const UserTable = ({userData, isRetrievingLoading, setSelectedItem, form, handle
                                     email: user.email,
                                     joined_at: user.joined_at,
                                     others: user.others,
+                                    group_id: user.group_id
                                 });
                                 if (action === 'update') {
                                     toggleOpen();

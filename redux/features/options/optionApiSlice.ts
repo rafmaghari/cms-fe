@@ -1,7 +1,7 @@
 import {apiSlice} from "@/redux/services/apiSlice";
 import {PaginationType} from "@/app/type/PaginationType";
 
-export type LeaderOptionResponse = {
+export type OptionResponse = {
     data: OptionType[],
     meta: PaginationType
 }
@@ -13,16 +13,20 @@ export type OptionType = {
 
 const optionApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        retrieveOptionLeader: builder.query<LeaderOptionResponse, void>({
+        retrieveOptionLeader: builder.query<OptionResponse, void>({
             query: () => '/api/leader-options'
         }),
-        retrieveOptionOrganization: builder.query<LeaderOptionResponse, void>({
+        retrieveOptionOrganization: builder.query<OptionResponse, void>({
             query: () => '/api/organization-options'
+        }),
+        retrieveOptionGroup: builder.query<OptionResponse, void>({
+            query: () => '/api/group-options'
         })
     })
 });
 
 export const {
     useRetrieveOptionLeaderQuery,
-    useRetrieveOptionOrganizationQuery
+    useRetrieveOptionOrganizationQuery,
+    useRetrieveOptionGroupQuery
 } = optionApiSlice

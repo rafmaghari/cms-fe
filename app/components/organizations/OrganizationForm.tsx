@@ -6,11 +6,11 @@ import {SelectData} from "@/app/components/common/SelectData";
 import {LoadingSpinner} from "@/components/ui/Spinner";
 import {organizationDefaultValues} from "@/app/hooks/useOrganizationManagement";
 import React from "react";
-import {LeaderOptionResponse} from "@/redux/features/options/optionApiSlice";
+import {OptionResponse} from "@/redux/features/options/optionApiSlice";
 
 type Props = {
     isStoringLoading: boolean;
-    leaderOption: LeaderOptionResponse | undefined;
+    leaderOption: OptionResponse | undefined;
     handleSubmit: any;
     toggleOpen: () => void;
     form: any;
@@ -18,7 +18,15 @@ type Props = {
     setSelectedOrganization: any
 }
 
-const OrganizationForm = ({isStoringLoading, leaderOption, handleSubmit, toggleOpen, form, open, setSelectedOrganization}: Props) => {
+const OrganizationForm = ({
+                              isStoringLoading,
+                              leaderOption,
+                              handleSubmit,
+                              toggleOpen,
+                              form,
+                              open,
+                              setSelectedOrganization
+                          }: Props) => {
     return (
         <div>
             <Dialog open={open}>

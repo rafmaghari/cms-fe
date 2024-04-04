@@ -21,7 +21,8 @@ const Page = () => {
         open,
         selectedItem,
         toggleOpen,
-        setSelectedItem
+        setSelectedItem,
+        groupData
     } = useUserManagement(currentPage);
 
 
@@ -48,6 +49,7 @@ const Page = () => {
                     toggleOpen={toggleOpen}
                     form={form}
                     open={open}
+                    groupData={groupData}
                     setSelectedItem={setSelectedItem}
                 />
             </div>

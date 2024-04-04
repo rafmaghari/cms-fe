@@ -10,6 +10,7 @@ import {
     useStoreUserMutation,
     useUpdateUserMutation
 } from "@/redux/features/user/userApiSlice";
+import {useRetrieveOptionGroupQuery} from "@/redux/features/options/optionApiSlice";
 
 const moduleName = 'User'
 
@@ -20,7 +21,8 @@ export const userFormSchema = z.object({
     phone_number: z.string(),
     email: z.string().email(),
     facebook_url: z.string(),
-    others: z.string()
+    others: z.string().nullable(),
+    group_id: z.string().nullable()
 });
 
 export const userDefaultValue = {
@@ -31,6 +33,7 @@ export const userDefaultValue = {
     email: '',
     facebook_url: '',
     others: '',
+    group_id: ''
 }
 
 export const useUserManagement = (param = 1) => {
@@ -44,6 +47,10 @@ export const useUserManagement = (param = 1) => {
         isLoading: isRetrievingLoading,
         refetch,
     } = useRetrieveUsersQuery(param)
+
+    const {
+        data: groupData,
+    } = useRetrieveOptionGroupQuery()
 
     const [open, setOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<User | null>(null);
@@ -99,5 +106,6 @@ export const useUserManagement = (param = 1) => {
         setSelectedItem,
         toggleOpen,
         handleDelete,
+        groupData
     }
 }
