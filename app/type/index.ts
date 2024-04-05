@@ -16,6 +16,7 @@ export type User = {
     group_id?: number
 }
 
+
 export type ApiResponse<T> = {
     data: T[];
     meta: PaginationType;

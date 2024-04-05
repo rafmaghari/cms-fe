@@ -10,6 +10,7 @@ import {useAppSelector} from "@/redux/hooks";
 import AppLogo from "@/app/components/common/AppLogo";
 import {CgOrganisation} from "react-icons/cg";
 import {GrGroup} from "react-icons/gr";
+import {FaRegCalendarCheck} from "react-icons/fa6";
 
 export default function SideNavbar() {
     const {isAuthenticated} = useAppSelector(state => state.auth)
@@ -68,6 +69,12 @@ export default function SideNavbar() {
                         icon: GrGroup,
                         variant: "ghost"
                     },
+                    {
+                        title: "Attendance",
+                        href: "/attendances",
+                        icon: FaRegCalendarCheck,
+                        variant: "ghost"
+                    }
                 ]}
             />
         </div>

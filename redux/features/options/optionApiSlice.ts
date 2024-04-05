@@ -21,6 +21,9 @@ const optionApiSlice = apiSlice.injectEndpoints({
         }),
         retrieveOptionGroup: builder.query<OptionResponse, void>({
             query: () => '/api/group-options'
+        }),
+        retrieveOptionUser: builder.query<OptionResponse, void>({
+            query: () => '/api/user-options'
         })
     })
 });
@@ -28,5 +31,6 @@ const optionApiSlice = apiSlice.injectEndpoints({
 export const {
     useRetrieveOptionLeaderQuery,
     useRetrieveOptionOrganizationQuery,
-    useRetrieveOptionGroupQuery
+    useRetrieveOptionGroupQuery,
+    useLazyRetrieveOptionUserQuery
 } = optionApiSlice

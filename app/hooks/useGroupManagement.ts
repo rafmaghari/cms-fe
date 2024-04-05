@@ -23,6 +23,7 @@ export const groupFormSchema = z.object({
     leader_id: z.string(),
     organization_id: z.string(),
 });
+
 export type Group = {
     id?: number;
     name: string;
